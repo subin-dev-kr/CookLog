@@ -32,7 +32,7 @@ Spring MVC 기반 레시피 관리 웹 서비스입니다.
 
 ## 배포
 - Cafe24 서버 + Apache Tomcat
-- 배포 주소: http://cd01349.cafe24.com/CookLog
+- 배포 주소: http://cd01349.cafe24.com
 
 ---
 
