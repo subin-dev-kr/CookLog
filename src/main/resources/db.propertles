@@ -1,0 +1,4 @@
+jdbc.driverClassName=org.mariadb.jdbc.Driver
+jdbc.url=jdbc:mariadb://DB_HOST:3306/DB_NAME
+jdbc.username=cd01349
+jdbc.password=mari0722!

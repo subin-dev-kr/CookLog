@@ -1,0 +1,348 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	text-decoration: none;
+	list-style: none;
+	color: inherit;
+}
+
+/***** header *****/
+/* 스크롤시 헤더 따라옴 */
+header.fixed-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 150px; /* 헤더 높이를 고정한다!! */
+	z-index: 1000;
+	background-color: #fff;
+}
+/* header 실제 높이에 맞게 조절 (안쓰면 가려짐)*/
+body {
+	padding-top: 150px;
+}
+
+/***** 레시피 검색창 *****/
+.drop-content {
+	display: flex;
+}
+/* 드롭다운 */
+.select-content {
+	width: 100px;
+	padding: 8px;
+	border: 2px solid #ffc107;
+	border-radius: 6px;
+}
+
+.select-content:focus {
+	border: none;
+	outline: 2px solid rgba(255, 193, 7, 0.5);
+}
+/* 텍스트 */
+header .drop-content .line {
+	width: 250px;
+	border: 2px solid #ffc107;
+	border-radius: 6px;
+	padding: 8px;
+}
+
+header .drop-content .line:focus {
+	border: none;
+	outline: 2px solid rgba(255, 193, 7, 0.5);
+}
+
+/* 검색 버튼 */
+.drop-content button {
+	width: 50px;
+	border: 1px solid #ffc107;
+	border-radius: 6px;
+	background-color: #ffc107;
+}
+/* 검색버튼 아이콘 */
+.drop-content button .btn-icon {
+	display: flex;
+	justify-content: center;
+	color: white;
+}
+
+/***** 공지사항 롤링 *****/
+.notice-rolling-box {
+	width: 100%;
+	height: 50px;
+	overflow: hidden;
+	position: relative;
+	display: flex;
+	align-items: center;
+	border: 1px solid #ffe8b7;
+	border-radius: 6px;
+	padding: 8px 16px 8px 16px;
+	background-color: #fff0cf;
+}
+
+.notice-rolling-title {
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
+}
+
+.notice-rolling-title h6 {
+	border: 1px solid orange;
+	border-radius: 6px;
+	margin-bottom: 0;
+	padding: 5px 10px;
+	background-color: orange;
+}
+
+.notice-rolling-box h6 a {
+	color: black;
+}
+
+.notice-rolling-list {
+	list-style: none;
+	margin: 0;
+	position: absolute;
+	top: 0;
+	left: 100px;
+}
+
+.notice-rolling-list li {
+	height: 50px;
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+
+.notice-rolling-list li a {
+	color: #664d03;
+}
+
+/***** home 배너 검색창 *****/
+/* search-tab에 라인주기 */
+.search-tab {
+	width: 510px;
+	border: 1px solid white;
+	border-radius: 7px;
+	padding: 16px;
+	background-color: white;
+	margin: 0;
+}
+/* 라디오 버튼 숨기기 */
+.search-tab input[type="radio"] {
+	display: none;
+}
+/* 탭 버튼 스타일 */
+.search-tab-buttons {
+	display: flex;
+	border-bottom: 1px solid #e9e9e9;
+}
+/* 탭 버튼 라벨 스타일 */
+.search-tab-buttons label {
+	display: flex;
+	padding: 8px 16px;
+	border: 1px solid white;
+	border-radius: 6px;
+	margin-bottom: 16px;
+	color: #757575;
+	cursor: pointer;
+}
+
+.search-tab-buttons label:hover {
+	color: black;
+	border: 1px solid #e9e9e9;
+}
+
+.search-tab-buttons label .tab-icon {
+	margin-right: 5px;
+}
+/* 선택된 탭 스타일 */
+#rTitle:checked ~ .search-tab-buttons label[for="rTitle"], #mNickName:checked 
+	~ .search-tab-buttons label[for="mNickName"] {
+	background: #F1722826;
+	color: #F17228;
+}
+/* 박스 기본 숨김 */
+.search-box {
+	display: none;
+	margin-top: 16px;
+}
+/* 텍스트 아웃라인 지우기 */
+.search-box .no-line {
+	background-color: #f5f5f5;
+	border-style: none;
+	outline: none;
+	border: 2px solid transparent; /*기본은 안보이게*/
+	border-radius: 6px;
+}
+/* 텍스트 클릭 했을때 아웃라인 보이기 */
+.search-box .no-line:focus {
+	border: 2px solid #ffd987;
+	border-radius: 6px;
+	outline: 2px solid #ffd987;
+}
+
+.search-box .no-line::placeholder {
+	color: #BDBDBD !important;
+}
+/* 요리명 박스 보이기 */
+#tab-title:checked ~ .search-tab-content .box-title {
+	display: block;
+}
+/* 닉네임 박스 보이기 */
+#tab-nickname:checked ~ .search-tab-content .box-nickName {
+	display: block;
+}
+/* 검색창 기본스타일 */
+.search-box input[type="text"] {
+	width: 80%;
+	padding: 8px 8px 8px 20px;
+}
+/* 검색 버튼 스타일 */
+.search-box button {
+	width: 18%;
+	padding: 8px 25px;
+	border: 1px solid #F17228;
+	border-radius: 6px;
+	background-color: #F17228;
+	color: white;
+	font-weight: bold;
+}
+/* search-tab에 라인주기 */
+.search-tab {
+	width: 510px;
+	border: 1px solid white;
+	border-radius: 7px;
+	padding: 16px;
+	background-color: white;
+}
+/* 라디오 버튼 숨기기 */
+.search-tab input[type="radio"] {
+	display: none;
+}
+/* 탭 버튼 스타일 */
+.search-tab-buttons {
+	display: flex;
+	border-bottom: 1px solid #bcbcbc;
+}
+/* 탭 버튼 라벨 스타일 */
+.search-tab-buttons label {
+	display: flex;
+	padding: 8px 16px;
+	border: 1px solid white;
+	border-radius: 6px;
+	margin-bottom: 16px;
+	color: #757575;
+	cursor: pointer;
+}
+
+.search-tab-buttons label:hover {
+	color: black;
+	border: 1px solid #e9e9e9;
+}
+
+.search-tab-buttons label .tab-icon {
+	margin-right: 5px;
+}
+/* 선택된 탭 스타일 */
+#tab-title:checked ~ .search-tab-buttons label[for="tab-title"],
+	#tab-nickname:checked ~ .search-tab-buttons label[for="tab-nickname"] {
+	background: #F1722826;
+	color: #F17228;
+}
+/* 박스 기본 숨김 */
+.search-box {
+	display: none;
+	margin-top: 16px;
+}
+/* 텍스트 아웃라인 지우기 */
+.search-box .no-line {
+	background-color: #f5f5f5;
+	border-style: none;
+	outline: none;
+	border: 2px solid transparent; /*기본은 안보이게*/
+	border-radius: 6px;
+}
+/* 텍스트 클릭 했을때 아웃라인 보이기 */
+.search-box .no-line:focus {
+	border: 2px solid #ffd987;
+	border-radius: 6px;
+	outline: 2px solid #ffd987;
+}
+/* 요리명 박스 보이기 */
+#tab-title:checked ~ .search-tab-content .box-title {
+	display: block;
+}
+/* 닉네임 박스 보이기 */
+#tab-nickname:checked ~ .search-tab-content .box-nickName {
+	display: block;
+}
+/* 검색창 기본스타일 */
+.search-box input[type="text"] {
+	width: 80%;
+	padding: 8px 8px 8px 20px;
+}
+/* 검색 버튼 스타일 */
+.search-box button {
+	width: 18%;
+	padding: 8px 25px;
+	border: 1px solid #F17228;
+	border-radius: 6px;
+	background-color: #F17228;
+	color: white;
+	font-weight: bold;
+}
+/***** home 탭 버튼 *****/
+/* 탭 버튼 컨테이너 스타일 */
+.tab-button {
+	display: flex; /* 버튼들을 가로로 나열 */
+	justify-content: flex-start; /* 왼쪽 정렬 */
+	margin-bottom: 25px;
+	border-bottom: 2px solid #ddd; /* 하단 구분선 */
+}
+
+/* 개별 탭 버튼 스타일 */
+.tab-button label {
+	padding: 10px 18px; /* 버튼 내부 패딩 */
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 500;
+	color: #666; /* 비활성화 상태 텍스트 색상 */
+	transition: color 0.2s, border-bottom 0.2s;
+	/* 탭 버튼 아래에 마진을 줘서 border-bottom과 겹치지 않게 함 */
+	margin-bottom: -2px;
+}
+
+.tab-button label:hover {
+	color: #333; /* 마우스 오버 시 색상 변경 */
+}
+
+/* 라디오 버튼 숨김 */
+/* 실제 라디오 버튼은 숨기고, label을 버튼처럼 사용 */
+section input[type="radio"] {
+	display: none;
+}
+
+/* 활성화된 탭 스타일 (핵심 로직) */
+/* #recent 라디오 버튼이 체크되었을 때, 바로 뒤에 있는 .tab-button 내부의 label[for="recent"]를 활성화 */
+#recent:checked ~ .tab-button label[for="recent"], #popularity:checked 
+	~ .tab-button label[for="popularity"], #view:checked ~ .tab-button label[for="view"],
+	#suggestion:checked ~ .tab-button label[for="suggestion"], #scrap:checked 
+	~ .tab-button label[for="scrap"] {
+	color: #ffc107; /* 부트스트랩 Warning 색상 (활성화 색상) */
+	font-weight: bold;
+	border-bottom: 2px solid #ffc107; /* 활성화된 탭 아래에 강조선 */
+}
+
+/* 탭 콘텐츠 숨김 */
+.tab-content {
+	display: none;
+}
+
+#recent:checked ~ .tab-content.recent-content {
+	display: flex;
+}
+
+/* recipe-view */
+.recipe-ingredient {
+	white-space: pre-line !important;
+}
