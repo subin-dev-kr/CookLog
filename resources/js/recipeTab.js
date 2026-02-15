@@ -1,10 +1,10 @@
 // ===============================
-// 1. DOM 요소 잡기
+// DOM 요소 잡기
 // ===============================
 const tabLabels = document.querySelectorAll(".tab-button label");
 
 // ===============================
-// 2. 이벤트 등록
+// 이벤트 등록
 // ===============================
 function initRecipeTabEvents() {
     tabLabels.forEach(function (label) {
@@ -13,7 +13,7 @@ function initRecipeTabEvents() {
 }
 
 // ===============================
-// 3. 이벤트 핸들러 (이름 있는 함수)
+// 이벤트 핸들러
 // ===============================
 function onTabClick(event) {
     const clickedLabel = event.currentTarget;
@@ -28,7 +28,7 @@ function onTabClick(event) {
 }
 
 // ===============================
-// 4. 실제 동작 함수
+// 실제 동작 함수
 // ===============================
 function moveToSortedPage(sortType) {
     const params = new URLSearchParams(window.location.search);
@@ -40,7 +40,7 @@ function moveToSortedPage(sortType) {
 }
 
 // ===============================
-// 5. 초기 실행
+// 초기 실행
 // ===============================
 document.addEventListener("DOMContentLoaded", function () {
     initRecipeTabEvents();

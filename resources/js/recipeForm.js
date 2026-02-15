@@ -4,10 +4,10 @@ console.log("js시작");
 function initializeRecipeForm() {
     
     // 버튼 및 영역 잡기 (요리 순서 추가)
-    const addButton = document.getElementById("addForm"); // 버튼은 id가addForm 인거를 버튼으로 준다
+    const addButton = document.getElementById("addForm");
     
     if (addButton) {
-        addButton.addEventListener("click", addNewStep); // click 이벤트를 누르면 addNewStep함수를 실행해라
+        addButton.addEventListener("click", addNewStep);
     }
     
     // 대표 이미지 미리보기 요소 잡기

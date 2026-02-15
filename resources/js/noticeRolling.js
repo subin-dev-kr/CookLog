@@ -11,7 +11,7 @@ function initNoticeRolling() {
   const list = document.querySelector(".notice-rolling-list");
   const noticeBox = document.querySelector(".notice-rolling-box");
 
-  // ⭐ 공지 영역 없는 페이지면 실행 안 함
+  // 공지 영역 없는 페이지면 실행 안 함
   if (!list || !noticeBox) { //공지 영역 없는 페이지면 실행 안함
     return;
   }
@@ -32,7 +32,7 @@ function noticeRollingSlide() {
 	// 음수(-) 값이 위쪽으로 이동하게 함
 	list.style.transform = `translateY(-${itemHeight}px)`;
 	
-	//0.5초후 순서 바꾸고 초기화
+	// 0.5초후 순서 바꾸고 초기화
 	setTimeout(function() {
 		// 첫 번재  li를 맨 뒤로 이동시키기
 		list.appendChild(first);
@@ -70,13 +70,13 @@ function addMouseEvents() {
 	console.log("noticeBox", noticeBox);
 	// 마우스 올림 -> 정지
 	noticeBox.addEventListener("mouseenter", function(){
-		console.log("mouse enter detected");
+
 		stopRolling();
 	});
 	
 	// 마우스 치움 -> 다시 실행
 	noticeBox.addEventListener("mouseleave", function(){
-		console.log("mouse leave detected");
+		
 		startRolling();
 	});
 }

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!-- 공지사항 -->
@@ -12,8 +11,9 @@
 		</div>
 		<ul class="notice-rolling-list">
 			<c:forEach items="${top5List}" var="notice">
-				<li><a
-					href="<c:url value='/notice/readOne?nNum=${notice.nNum}'/>">${notice.nTitle}</a></li>
+				<li>
+					<a href="<c:url value='/notice/readOne?nNum=${notice.nNum}'/>">${notice.nTitle}</a>
+				</li>
 			</c:forEach>
 		</ul>
 	</div>

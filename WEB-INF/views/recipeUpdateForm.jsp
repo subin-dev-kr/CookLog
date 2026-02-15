@@ -1,25 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<c:url value='/resources/css/bootstrap.min.css'/>"
-	rel="stylesheet">
-<link href="<c:url value='/resources/css/theme.css?v=20251207'/>"
-	rel="stylesheet">
+<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
+<link href="<c:url value='/resources/css/theme.css?v=20251207'/>" rel="stylesheet">
 <title>레시피 수정</title>
 </head>
 <body>
 
 	<main class="container py-5">
 
-		<form action="<c:url value='/recipe/update'/>" method="post"
-			enctype="multipart/form-data">
+		<form action="<c:url value='/recipe/update'/>" method="post" enctype="multipart/form-data">
 
-			<h2 class="text-1000 fs-4 fw-bold mb-4 border-bottom pb-2">레시피
-				수정</h2>
+			<h2 class="text-1000 fs-4 fw-bold mb-4 border-bottom pb-2">레시피 수정</h2>
 
 			<input type="hidden" name="rNum" value="${recipe.rNum}">
 
@@ -28,25 +23,22 @@
 					<div class="col-lg-7">
 
 						<div class="mb-3">
-							<label for="rTitle" class="form-label fw-bold">요리명</label> <input
-								type="text" class="form-control form-control-lg" id="rTitle"
-								name="rTitle" placeholder="요리명을 입력하세요" value="${recipe.rTitle}"
-								required>
+							<label for="rTitle" class="form-label fw-bold">요리명</label> 
+							<input type="text" class="form-control form-control-lg" id="rTitle"
+								name="rTitle" placeholder="요리명을 입력하세요" value="${recipe.rTitle}" required>
 						</div>
 
 						<div class="mb-4">
-							<label for="rDescription" class="form-label fw-bold">요리
-								소개</label>
-							<textarea class="form-control" id="rDescription"
-								name="rDescription" rows="3" placeholder="레시피에 대한 간단한 소개를 적어주세요">${recipe.rDescription}</textarea>
+							<label for="rDescription" class="form-label fw-bold">요리 소개</label>
+							<textarea class="form-control" id="rDescription" name="rDescription" rows="3" 
+								placeholder="레시피에 대한 간단한 소개를 적어주세요">${recipe.rDescription}</textarea>
 						</div>
 
 						<div class="row g-2">
 
 							<div class="col-sm-6 col-md-3">
 								<label for="rCookType" class="form-label fw-bold small">종류</label>
-								<select class="form-select" id="rCookType" name="rCookType"
-									required>
+								<select class="form-select" id="rCookType" name="rCookType" required>
 									<option value="한식"
 										${recipe.rCookType eq '한식' ? 'selected' : ''}>한식</option>
 									<option value="중식"
@@ -55,7 +47,8 @@
 										${recipe.rCookType eq '양식' ? 'selected' : ''}>양식</option>
 									<option value="일식"
 										${recipe.rCookType eq '일식' ? 'selected' : ''}>일식</option>
-									<option value="빵" ${recipe.rCookType eq '빵' ? 'selected' : ''}>빵</option>
+									<option value="빵" 
+										${recipe.rCookType eq '빵' ? 'selected' : ''}>빵</option>
 									<option value="샐러드"
 										${recipe.rCookType eq '샐러드' ? 'selected' : ''}>샐러드</option>
 									<option value="디저트"
@@ -68,9 +61,8 @@
 							</div>
 
 							<div class="col-sm-6 col-md-3">
-								<label for="rCookTime" class="form-label fw-bold small">요리
-									시간</label> <select class="form-select" id="rCookTime" name="rCookTime"
-									required>
+								<label for="rCookTime" class="form-label fw-bold small">요리 시간</label> 
+									<select class="form-select" id="rCookTime" name="rCookTime" required>
 									<option value="10분이내"
 										${recipe.rCookTime eq '10분이내' ? 'selected' : ''}>10분이내</option>
 									<option value="30분이내"
@@ -88,8 +80,7 @@
 
 							<div class="col-sm-6 col-md-3">
 								<label for="rServing" class="form-label fw-bold small">인원</label>
-								<select class="form-select" id="rServing" name="rServings"
-									required>
+								<select class="form-select" id="rServing" name="rServings" required>
 									<option value="1인분"
 										${recipe.rServings eq '1인분' ? 'selected' : ''}>1인분</option>
 									<option value="2인분"
@@ -117,23 +108,22 @@
 					<div class="col-lg-5">
 						<div
 							class="card bg-light p-4 h-100 d-flex flex-column justify-content-center align-items-center">
-							<label for="rCenterImageFile" class="form-label fw-bold mb-3">대표
-								이미지</label>
+							<label for="rCenterImageFile" class="form-label fw-bold mb-3">대표 이미지</label>
 							<div class="border rounded w-100 mb-3 center-image-style">
-								<img class="centerImagePreview" id="rCenterImagePreview"
+								<img class="centerImagePreview ${empty recipe.rCenterImagePath ? 'd-none' : 'd-block'}" 
+									id="rCenterImagePreview"
 									src="<c:url value='/uploadedImages/${recipe.rCenterImagePath}'/>"
-									alt="기존 이미지"
-									style="display: ${empty recipe.rCenterImagePath ? 'none' : 'block'};">
+									alt="기존 이미지">
 
-								<span class="centerImagePlaceholder"
-									id="rCenterImagePlaceholder"
-									style="display: ${empty recipe.rCenterImagePath ? 'block' : 'none'};">
-									${empty recipe.rCenterImagePath ? '이미지 미리보기' : '기존 이미지'} </span>
+								<span class="centerImagePlaceholder ${empty recipe.rCenterImagePath ? 'd-block' : 'd-none'}"
+									id="rCenterImagePlaceholder">
+									${empty recipe.rCenterImagePath ? '이미지 미리보기' : '기존 이미지'} 
+								</span>
 							</div>
 
 							<input class="form-control" type="file" id="rCenterImageFile"
-								name="rCenterImageFile" accept="image/*"> <input
-								type="hidden" name="rCenterImagePath"
+								name="rCenterImageFile" accept="image/*"> 
+							<input type="hidden" name="rCenterImagePath"
 								value="${recipe.rCenterImagePath}" />
 						</div>
 					</div>
@@ -157,8 +147,7 @@
 					<c:forEach var="step" items="${recipe.cookingSteps}"
 						varStatus="status">
 						<div class="step-block card p-4 shadow-sm mb-3 border">
-							<div
-								class="d-flex justify-content-between align-items-center mb-3">
+							<div class="d-flex justify-content-between align-items-center mb-3">
 								<h4 class="fs-6 fw-bold m-0">STEP ${status.index + 1}</h4>
 
 								<input type="hidden" name="cookingSteps[${status.index}].cNum"
@@ -166,8 +155,9 @@
 									name="cookingSteps[${status.index}].cStep"
 									value="${status.index}">
 
-								<button type="button" class="btn btn-sm btn-danger"
-									onclick="removeStepField(this)">STEP 삭제</button>
+								<button type="button" class="btn btn-sm btn-danger" onclick="removeStepField(this)">
+									STEP 삭제
+								</button>
 							</div>
 
 							<div class="row g-3">
@@ -186,8 +176,7 @@
 										<label for="cookingSteps[${status.index}].cImageFile"
 											class="form-label small text-muted">요리 이미지</label>
 
-										<div
-											class="step-image-preview-area mb-3 border rounded w-100 image-hidden">
+										<div class="step-image-preview-area mb-3 border rounded w-100 image-hidden">
 											<c:if test="${not empty step.cImage}">
 												<img class="stepImagePreview image-cover d-block"
 													src="<c:url value='/uploadedImages/${step.cImage}'/>"
@@ -200,8 +189,7 @@
 											id="cookingSteps[${status.index}].cImageFile"
 											name="cookingSteps[${status.index}].cImageFile"
 											accept="image/*" onchange="handleStepImagePreview(this)">
-										<input type="hidden"
-											name="cookingSteps[${status.index}].cImage"
+										<input type="hidden" name="cookingSteps[${status.index}].cImage" 
 											value="${step.cImage}" />
 									</div>
 								</div>
@@ -212,15 +200,15 @@
 				</div>
 
 				<div class="text-center mt-4">
-					<button type="button" class="btn btn-success" id="addForm">요리
-						순서 추가</button>
+					<button type="button" class="btn btn-success" id="addForm">요리 순서 추가</button>
 				</div>
 			</section>
 
 			<hr>
 			<div class="d-flex justify-content-center mt-4 pt-3">
-				<a href="<c:url value='/member/myPage'/>"
-					class="btn btn-secondary btn-lg me-3">수정 취소</a>
+				<a href="<c:url value='/member/myPage'/>" class="btn btn-secondary btn-lg me-3">
+					수정 취소
+				</a>
 				<button type="submit" class="btn btn-warning btn-lg">수정 완료</button>
 			</div>
 

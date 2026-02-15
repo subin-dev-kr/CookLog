@@ -2,7 +2,7 @@
 const stepArea = document.getElementById("stepArea");
 
 // ==========================================================
-// 1. 초기화 함수 (모든 이벤트 리스너 연결 및 대표 이미지 미리보기 설정)
+// 초기화 함수 (모든 이벤트 리스너 연결 및 대표 이미지 미리보기 설정)
 // ==========================================================
 function initializeRecipeForm() {
     
@@ -26,7 +26,7 @@ function initializeRecipeForm() {
 }
 
 // ==========================================================
-// 2.이미지 미리보기 로직 함수
+// 이미지 미리보기 로직 함수
 // ==========================================================
 function previewImage(input, previewElement, placeholderElement) {
     
@@ -58,9 +58,9 @@ function previewImage(input, previewElement, placeholderElement) {
 
 // 요리 순서 이미지 미리보기 처리 함수
 function handleStepImagePreview(input) {
-    // 1. 클릭된 파일 인풋의 부모 STEP 블록을 찾습니다.
+    // 클릭된 파일 인풋의 부모 STEP 블록을 찾는다.
     const stepBlock = input.closest('.step-block');
-    // 2. 그 STEP 블록 안의 미리보기 영역을 찾습니다.
+    // 그 STEP 블록 안의 미리보기 영역을 찾는다.
     const previewArea = stepBlock.querySelector('.step-image-preview-area');
 
     if (input.files && input.files[0]) {
@@ -70,29 +70,27 @@ function handleStepImagePreview(input) {
         reader.onload = function(e) {
 			// 숨김 클래스 제거해서 실제로 보이도록 처리
 			previewArea.classList.remove("image-hidden");
-            // 3. 미리보기 영역 내부를 비우고 새 <img> 태그를 삽입합니다.
+            // 미리보기 영역 내부를 비우고 새 <img> 태그를 삽입한다.
             previewArea.innerHTML = `<img src="${e.target.result}" alt="새 스텝 이미지" class="stepImagePreview image-cover d-block">`;
         };
 
         reader.readAsDataURL(file);
     } else {
         // 파일 선택을 취소했을 경우 (기존 이미지 경로 유지)
-        // 기존 이미지가 있다면 기존 이미지를 보여주고, 없다면 비워둡니다.
-        // 현재 JSP 구조상 기존 이미지는 JSTL에 의해 이미 <c:if>로 출력되어 있으므로, 
-        // 여기서는 파일이 없으면 미리보기 영역을 초기화합니다.
+        // 기존 이미지가 있다면 기존 이미지를 보여주고, 없다면 비워둠.
         previewArea.innerHTML = ''; 
     }
 }
 
 // ==========================================================
-// 3. 요리 순서 추가 함수
+// 요리 순서 추가 함수
 // ==========================================================
 function addNewStep() {
     console.log("요리 순서 추가 클릭");
     const index = stepArea.querySelectorAll(".step-block").length;
     const block = document.createElement("div");
     
-    // 🌟 JSP의 클래스와 일치하도록 수정 (스타일 복구) 🌟
+    // JSP의 클래스와 일치하도록 수정 (스타일 복구)
     block.className = "step-block card p-4 shadow-sm mb-3 border"; 
 
 	block.innerHTML = `
@@ -125,7 +123,7 @@ function addNewStep() {
 }
 
 // ==========================================================
-// 4. 요리 순서 삭제/재정렬 로직
+// 요리 순서 삭제/재정렬 로직
 // ==========================================================
 
 function removeStepField(btn) {
@@ -155,10 +153,10 @@ function reorderSteps() {
 		
         const block = newBlocks[i];
         
-        // 1. Step 번호 재설정
+        // Step 번호 재설정
         block.querySelector("h4").innerText = "STEP " + (i + 1); // "Step" -> "STEP "으로 JSP와 일치
 
-        // 2. 필드 이름 재설정
+        // 필드 이름 재설정
         
         const contentTextarea = block.querySelector("textarea[name*='cInstructions']");
         if (contentTextarea) {
@@ -188,5 +186,5 @@ function reorderSteps() {
         }
     }
 }
-// 5. 초기화 함수 연결
+// 초기화 함수 연결
 document.addEventListener("DOMContentLoaded", initializeRecipeForm);

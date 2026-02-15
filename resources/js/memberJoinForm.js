@@ -1,163 +1,328 @@
-/***** 회원 아이디 중복확인 *****/
-//메세지 영역
-const idMsg = document.getElementById("idCheckMsg");
- //버튼잡기
+/***** 버튼 잡기 + 상태변수 *****/
+//회원가입 폼
+const joinForm = document.getElementById("joinForm");
+//아이디 
+const mIdInput = document.getElementById("mId");
 const checkIdBtn = document.getElementById("checkIdBtn");
-//이벤트 주기 & 함수호출
-checkIdBtn.addEventListener("click", idCheck);
-//함수정의 (클릭 시 실행))
-function idCheck() {
-
-	const mId = document.getElementById("mId").value;
-
-	if (!mId) {
-		idMsg.style.color = "red";
-		idMsg.innerText = "아이디를 입력해주세요!";
-		return;
-	}
-	
-	checkId(mId); //중복체크 함수 호출
-	
-}
-// 응답 -> 문자열
-function convertToText(res) { //res = response(응답)
-	return res.text(); //문자열로 변환
-}
-// 결과처리
-function handleCheckIdResult(result) {
-	if(result === "OK") {
-		idMsg.innerText = "사용 가능한 아이디 입니다.";
-		idMsg.style.color = "green";
-	} else if (result === "DUP") {
-		idMsg.innerText = "이미 사용중인 아이디 입니다.";
-		idMsg.style.color = "red";
-	} else {
-		idMsg.innerText = "서버오류";
-		idMsg.style.color = "red";
-	}
-	
-}
-//아이디 중복 확인 요청
-function checkId(mId) {
-    fetch(contextPath + "/member/checkId?mId=" + encodeURIComponent(mId))
-        .then(convertToText)
-        .then(handleCheckIdResult);
-}	
-
-/***** 회원 비밀번호 재확인 *****/
-//메세지 영역
-const pwMsg = document.getElementById("pwCheckMsg");
-//버튼 잡기
+const idMsg = document.getElementById("idCheckMsg");
+//비밀번호 재확인
+const mPwInput = document.getElementById("mPw");
+const mPwConfirmInput = document.getElementById("mPwConfirm");
 const pwCheckBtn = document.getElementById("pwCheckBtn");
-//이벤트 주기
-pwCheckBtn.addEventListener("click", pwCheck);
-//함수정의
-function pwCheck(){
-	const pw = document.getElementById("mPw").value;
-	const pwConfirm = document.getElementById("mPwConfirm").value;
-	const pwMsg = document.getElementById("pwCheckMsg");
-	
-	if(pw === "" || pwConfirm === "") { //=== 은 데이터랑 타입 둘다 같은지 확인
-		
-		pwMsg.innerText = "비밀번호를 입력하세요";
-		pwMsg.style.color = "red";
-		return;
-	}
-	if(pw === pwConfirm) {
-		pwMsg.innerText = "비밀번호가 일치합니다.";
-		pwMsg.style.color = "green";
-	} else {
-		pwMsg.innerText = "비밀번호가 일치하지 않습니다.";
-		pwMsg.style.color = "red";
-	}
-	
-}
-/***** 회원 닉네임 중복확인 *****/
-//메세지 영역
-const nickMsg = document.getElementById("nickCheckMsg");
-//버튼 잡기
-const checkNickBtn = document.getElementById("checkNickBtn");
-//이벤트 주기
-checkNickBtn.addEventListener("click", nickCheck);
-//함수정의
-function nickCheck (){
-	const nick = document.getElementById("mNickName").value;
-	
-	if(nick === "") {
-		nickMsg.innerText = "닉네임을 입력 하세요.";
-		nickMsg.style.color = "red"
-		return;
-		
-	}
-	
-	checkNickName(nick);
-}
+const pwMsg = document.getElementById("pwCheckMsg");
+//닉네임 중복확인
+const nickInput = document.getElementById("mNickName");
+const nickMsg = document.getElementById("nickMsg");
+//이메일 중복확인
+const emailInput = document.getElementById("email");
+const emailMsg = document.getElementById("emailMsg");
+//회원가입 폼 alert
+const formAlert = document.getElementById("formAlert");
 
-//결과처리함수
-function handleCheckNickResult(result) {
-	
-	if(result === "OK") {
-		nickMsg.innerText = "사용 가능한 닉네임 입니다.";
-		nickMsg.style.color = "green";
-	} else if (result === "DUP") {
-		nickMsg.innerText = "이미 사용 중인 닉네임 입니다.";
-		nickMsg.style.color = "red";
-	} else {
-		nickMsg.innerText = "서버오류";
-		nickMsg.style.color = "red";
-	}
-}
-//닉네임 중복확인 함수
-function checkNickName(nick) {
-    fetch(contextPath + "/member/checkNickName?mNickName=" + encodeURIComponent(nick))
-        .then(convertToText)
-        .then(handleCheckNickResult);
-}
+/***** 중복확인 & 비번확인 상태값(제출 막는 용도) *****/
+let isIdChecked = false; //아이디 중복확인 통과 여부
+let isPwMatched = false; //비밀번호 일치 여부
+let isNickOk = false;    //닉네임 중복확인 통과여부
+let isEmailOk = false;   //이메일 중복확인 통과여부
 
+/***** 중복확인 통과한 아이디(아이디 변경 감지) *****/
+let lastCheckedId = "";
+let lastCheckedNick = "";
+let lastCheckedEmail = "";
 
-/***** 이메일 중복체크 *****/
-//메세지 영역
-const emailMsg = document.getElementById("emailCheckMsg");
-//버튼잡기
-const checkEmailBtn = document.getElementById("checkEmailBtn");
-//이벤트 주기
-checkEmailBtn.addEventListener("click", emailCheck);
-//함수정의
-function emailCheck() {
+/***** 이벤트 주기 *****/
+if(checkIdBtn) checkIdBtn.addEventListener("click", idCheck);
+if(pwCheckBtn) pwCheckBtn.addEventListener("click", pwCheck);
+
+if(mIdInput) mIdInput.addEventListener("input", resetIdCheck);
+
+if(mPwInput) mPwInput.addEventListener("input", resetPwCheck);
+if(mPwConfirmInput) mPwConfirmInput.addEventListener("input", resetPwCheck);
+
+if (nickInput) nickInput.addEventListener("blur", checkNick);
+if (nickInput) nickInput.addEventListener("input", resetNickCheck);
+
+if (emailInput) emailInput.addEventListener("blur", checkEmail);
+if (emailInput) emailInput.addEventListener("input", resetEmailCheck);
+
+if(joinForm) joinForm.addEventListener("submit", validateJoinSubmit);
+
+/***** 아이디 중복확인(Ajax) *****/
+function idCheck() {
+	const mId = mIdInput.value.trim();
 	
-	const email = document.getElementById("email").value;
-	
-	if(email === "") {
-		
-		emailMsg.innerText = "이메일을 입력하세요.";
-		emailMsg.style.color = "red";
+	//빈 값 체크
+	if(!mId) {
+		setMsg(idMsg, "아이디를 입력해주세요!", "red");
+		isIdChecked = false;
+		lastCheckedId = "";
+		showFormAlert("아이디를 입력해주세요.", "danger");
+		mIdInput.focus();
 		return;
 	}
 	
-	checkEmail(email);
+	//서버 요청
+	const url = `checkId?mId=${encodeURIComponent(mId)}`;
+	
+	setMsg(idMsg, "중복 확인 중...", "gray");
+	
+	fetch(url, {method: "GET"})
+	.then(function (res) {
+		return res.text();
+	})
+	.then(function (result) {
+		const trimmed = (result || "").trim();
+
+	    if (trimmed === "OK") {
+        	setMsg(idMsg, "사용 가능한 아이디입니다.", "green");
+			hideFormAlert();
+	        isIdChecked = true;
+	        lastCheckedId = mId;
+        } else if (trimmed === "DUP") {
+	        setMsg(idMsg, "이미 사용 중인 아이디입니다.", "red");
+			showFormAlert("이미 사용 중인 아이디입니다.", "danger");
+	        isIdChecked = false;
+	        lastCheckedId = "";
+	    } else {
+	        setMsg(idMsg, "중복 확인에 실패했습니다. 잠시 후 다시 시도해주세요.", "red");
+	        isIdChecked = false;
+	        lastCheckedId = "";
+	    }
+    })
+    .catch(function () {
+      setMsg(idMsg, "서버 통신 오류입니다. 잠시 후 다시 시도해주세요.", "red");
+      isIdChecked = false;
+      lastCheckedId = "";
+    });
+
 }
 
-//결과처리 함수
-function handleCheckEmailResult(result) {
-	
-	if(result === "OK") {
-		
-		emailMsg.innerText = "사용가능한 이메일입니다.";
-		emailMsg.style.color = "green";
-	} else if(result === "DUP") {
-		
-		emailMsg.innerText = "이미 사용중인 이메일 입니다.";
-		emailMsg.style.color = "red";
-	} else {
-		
-		emailMsg.innerText = "서버오류";
-		emailMsg.style.color = "red";
-	}
+/***** 아이디 입력 변경 시 중복확인 상태 초기화 *****/
+function resetIdCheck() {
+    const currentId = mIdInput.value.trim();
+
+    // 현재 입력이 "마지막 확인한 값"과 다르면 검증 무효 처리
+    if (currentId !== lastCheckedId) {
+        isIdChecked = false;
+
+	    if (!currentId) {
+	        setMsg(idMsg, "", "");
+			hideFormAlert();
+	        return;
+	    }
+        setMsg(idMsg, "아이디 중복확인을 해주세요.", "gray");
+		hideFormAlert();
+    }
 }
-//이메일 중복 함수
-function checkEmail(email) {
+/***** 비밀번호 재확인 *****/
+function pwCheck() {
+    const pw = mPwInput.value;
+    const pwConfirm = mPwConfirmInput.value;
+
+    if (!pw || !pwConfirm) {
+    	setMsg(pwMsg, "비밀번호를 입력하세요", "red");
+    	isPwMatched = false;
+    	showFormAlert("비밀번호를 입력하고 재확인 해주세요.", "danger");
+    	return;
+    }
+
+  	if (pw === pwConfirm) {
+	    setMsg(pwMsg, "비밀번호가 일치합니다.", "green");
+		hideFormAlert();
+	    isPwMatched = true;    
+    } else {
+	    setMsg(pwMsg, "비밀번호가 일치하지 않습니다.", "red");
+	    isPwMatched = false;
+    }
+}
+
+/**** 비밀번호 입력 변경 시 재확인 상태 초기화 *****/
+function resetPwCheck() {
+    isPwMatched = false;
+
+    const pw = mPwInput.value;
+    const pwConfirm = mPwConfirmInput.value;
+
+    if (!pw && !pwConfirm) {
+	    setMsg(pwMsg, "", "");
+	    return;
+   }
+
+    setMsg(pwMsg, "비밀번호 재확인을 해주세요.", "gray");
+}
+
+/***** 닉네임 중복확인 ******/ 
+function checkNick() {
+  const nick = nickInput.value.trim();
+
+  if (!nick) {
+    setMsg(nickMsg, "", "");
+    isNickOk = false;
+    lastCheckedNick = "";
+    return;
+  }
+
+  const url = `checkNick?nick=${encodeURIComponent(nick)}`;
+  setMsg(nickMsg, "확인 중...", "gray");
+
+  fetch(url)
+    .then(function (res) { return res.text(); })
+    .then(function (result) {
+      const trimmed = (result || "").trim();
+
+      if (trimmed === "OK") {
+        setMsg(nickMsg, "사용 가능한 닉네임입니다.", "green");
+        isNickOk = true;
+        lastCheckedNick = nick;
+      } else if (trimmed === "DUP") {
+        setMsg(nickMsg, "이미 사용 중인 닉네임입니다.", "red");
+        showFormAlert("이미 사용 중인 닉네임입니다.", "danger");
+        isNickOk = false;
+        lastCheckedNick = "";
+      } else {
+        setMsg(nickMsg, "닉네임 확인 실패. 다시 시도해주세요.", "red");
+        isNickOk = false;
+        lastCheckedNick = "";
+      }
+    })
+    .catch(function () {
+      setMsg(nickMsg, "서버 통신 오류입니다.", "red");
+      isNickOk = false;
+      lastCheckedNick = "";
+    });
+}
+//
+function resetNickCheck() {
+  const cur = nickInput.value.trim();
+  if (cur !== lastCheckedNick) {
+    isNickOk = false;
+    if (cur) setMsg(nickMsg, "닉네임 중복 여부를 확인합니다(포커스 이동 시).", "gray");
+    else setMsg(nickMsg, "", "");
+  }
+}
+
+/***** 이메일 중복확인 ******/ 
+function checkEmail() {
+  const email = emailInput.value.trim();
+
+  if (!email) {
+    setMsg(emailMsg, "", "");
+    isEmailOk = false;
+    lastCheckedEmail = "";
+    return;
+  }
+
+  // 간단한 이메일 형식 체크(선택)
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setMsg(emailMsg, "이메일 형식을 확인해주세요.", "red");
+    isEmailOk = false;
+    lastCheckedEmail = "";
+    return;
+  }
+
+  const url = `checkEmail?email=${encodeURIComponent(email)}`;
+  setMsg(emailMsg, "확인 중...", "gray");
+
+  fetch(url)
+    .then(function (res) { return res.text(); })
+    .then(function (result) {
+      const trimmed = (result || "").trim();
+
+      if (trimmed === "OK") {
+        setMsg(emailMsg, "사용 가능한 이메일입니다.", "green");
+        isEmailOk = true;
+        lastCheckedEmail = email;
+      } else if (trimmed === "DUP") {
+        setMsg(emailMsg, "이미 사용 중인 이메일입니다.", "red");
+        showFormAlert("이미 사용 중인 이메일입니다.", "danger");
+        isEmailOk = false;
+        lastCheckedEmail = "";
+      } else {
+        setMsg(emailMsg, "이메일 확인 실패. 다시 시도해주세요.", "red");
+        isEmailOk = false;
+        lastCheckedEmail = "";
+      }
+    })
+    .catch(function () {
+      setMsg(emailMsg, "서버 통신 오류입니다.", "red");
+      isEmailOk = false;
+      lastCheckedEmail = "";
+    });
+}
+
+function resetEmailCheck() {
+  const cur = emailInput.value.trim();
+  if (cur !== lastCheckedEmail) {
+    isEmailOk = false;
+    if (cur) setMsg(emailMsg, "이메일 중복 여부를 확인합니다(포커스 이동 시).", "gray");
+    else setMsg(emailMsg, "", "");
+  }
+}
+
+/***** submit 최종검증 ******/
+function validateJoinSubmit(e) {
+    const currentId = mIdInput.value.trim();
+
+    // 아이디 중복확인 미완료 또는 확인 후 값 변경
+    if (!isIdChecked || currentId !== lastCheckedId) {
+	    e.preventDefault();
+	    showFormAlert("아이디 중복확인을 해주세요.", "danger");
+	    mIdInput.focus();
+	    return;
+    }
+
+    // 비밀번호 재확인 미완료
+    if (!isPwMatched) {
+	    e.preventDefault();
+	    showFormAlert("비밀번호 재확인을 해주세요.", "danger");
+	    mPwConfirmInput.focus();
+	    return;
+    }
 	
-	fetch(contextPath + "/member/checkEmail?email=" + encodeURIComponent(email))
-		.then(convertToText)
-		.then(handleCheckEmailResult);
+	// 닉네임: blur 체크 안 했거나 값 변경됐으면 막기
+	const currentNick = nickInput.value.trim();
+	if (!isNickOk || currentNick !== lastCheckedNick) {
+	  e.preventDefault();
+	  showFormAlert("닉네임 중복 확인이 필요합니다. 닉네임 입력 후 다른 칸을 클릭해 확인해주세요.", "danger");
+	  nickInput.focus();
+	  return;
+	}
+
+	// 이메일: blur 체크 안 했거나 값 변경됐으면 막기
+	const currentEmail = emailInput.value.trim();
+	if (!isEmailOk || currentEmail !== lastCheckedEmail) {
+	  e.preventDefault();
+	  showFormAlert("이메일 중복 확인이 필요합니다. 이메일 입력 후 다른 칸을 클릭해 확인해주세요.", "danger");
+	  emailInput.focus();
+	  return;
+	}
+
+    // 통과하면 폼 상단 에러 숨김
+    hideFormAlert();
+}
+
+/**** 공용 함수들 *****/
+function setMsg(el, text, color) {
+    if (!el) return;
+    el.innerText = text || "";
+    if (color) el.style.color = color;
+}
+
+function showFormAlert(text, type) {
+    if (!formAlert) return;
+
+    formAlert.innerText = text;
+
+    // 보여주기
+    formAlert.classList.remove("d-none");
+
+    // 타입 초기화 후 부여
+    formAlert.classList.remove("alert-danger", "alert-success", "alert-warning", "alert-info");
+    formAlert.classList.add("alert-" + type);
+}
+
+function hideFormAlert() {
+    if (!formAlert) return;
+    formAlert.innerText = "";
+    formAlert.classList.add("d-none");
 }

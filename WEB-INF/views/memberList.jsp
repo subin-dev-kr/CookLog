@@ -6,6 +6,9 @@
 <meta charset="UTF-8">
 <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
 <link href="<c:url value='/resources/css/theme.css'/>" rel="stylesheet">
+<link href="<c:url value='/resources/css/cookLog.css'/>" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/abd2984efb.js"></script>
 <title>전체회원조회</title>
 </head>
 <body>
@@ -25,8 +28,7 @@
 					<form class="d-flex mb-4 align-items-center"
 						action="<c:url value='/member/readAll'/>" method="get">
 						<div class="me-3">
-							<select class="form-select" name="memberSearchType"
-								style="width: 130px" aria-label="검색 조건">
+							<select class="form-select w-auto pe-5" name="memberSearchType" aria-label="검색 조건">
 								<option selected value="mId">아이디</option>
 								<option value="mNickName">닉네임</option>
 								<option value="email">이메일</option>
@@ -35,8 +37,8 @@
 						</div>
 
 						<input class="form-control me-2 flex-grow-1" type="text"
-							name="memberSearchKeyword" placeholder="검색어를 입력하세요"> <input
-							class="btn btn-warning" type="submit" value="조회" />
+							name="memberSearchKeyword" placeholder="검색어를 입력하세요"> 
+						<input class="btn btn-warning" type="submit" value="조회" />
 					</form>
 					<!-- 회원 리스트 -->
 					<div class="table-responsive">
@@ -55,17 +57,16 @@
 							<tbody>
 								<c:forEach items="${list}" var="member">
 									<tr>
-										<td>${member.mNum}</td>
-										<td>${member.mId}</td>
-										<td>${member.mNickName}</td>
-										<td>${member.email}</td>
-										<td>${member.phone}</td>
-										<td>${member.mRole}</td>
+										<td class="align-middle">${member.mNum}</td>
+										<td class="align-middle">${member.mId}</td>
+										<td class="align-middle">${member.mNickName}</td>
+										<td class="align-middle">${member.email}</td>
+										<td class="align-middle">${member.phone}</td>
+										<td class="align-middle">${member.mRole}</td>
 										<td>
 						                    <a href="<c:url value='/recipe/myList'>
 						                                <c:param name='keyword' value='${member.mId}'/>
-						                            </c:url>" 
-						                       class="btn btn-primary btn-sm">
+						                            </c:url>" class="btn btn-primary btn-sm">
 						                        레시피 보기
 						                    </a>
 						                </td>
@@ -103,21 +104,19 @@
 							</li>
 
 							<!-- 현재 페이지 -->
-							<c:forEach begin="${paging.startPage}" end="${paging.endPage}"
-								var="pageNum">
-								<li
-									class="page-item ${pageNum == paging.currentPage ? 'active' : ''}">
-									<a class="page-link"
-									href="<c:url value='/member/readAll'>
-									            <c:param name='page' value='${pageNum}'/>
-									            <c:if test='${not empty memberSearchType}'>
-									                <c:param name='memberSearchType' value='${memberSearchType}'/>
-									            </c:if>
-									            <c:if test='${not empty memberSearchKeyword}'>
-									                <c:param name='memberSearchKeyword' value='${memberSearchKeyword}'/>
-									            </c:if>
-									        </c:url>">
-										${pageNum} </a>
+							<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="pageNum">
+								<li class="page-item ${pageNum == paging.currentPage ? 'active' : ''}">
+									<a class="page-link" href="<c:url value='/member/readAll'>
+								            <c:param name='page' value='${pageNum}'/>
+								            <c:if test='${not empty memberSearchType}'>
+								                <c:param name='memberSearchType' value='${memberSearchType}'/>
+								            </c:if>
+								            <c:if test='${not empty memberSearchKeyword}'>
+								                <c:param name='memberSearchKeyword' value='${memberSearchKeyword}'/>
+								            </c:if>
+								        </c:url>">
+										${pageNum} 
+									</a>
 								</li>
 							</c:forEach>
 
@@ -129,8 +128,7 @@
 										<span class="page-link">&raquo;</span>
 									</c:when>
 									<c:otherwise>
-										<a class="page-link"
-											href="<c:url value='/member/readAll'>
+										<a class="page-link" href="<c:url value='/member/readAll'>
 									                <c:param name='page' value='${paging.currentPage + 1}'/>
 									                <c:if test='${not empty memberSearchType}'>
 									                    <c:param name='memberSearchType' value='${memberSearchType}'/>
@@ -139,7 +137,8 @@
 									                    <c:param name='memberSearchKeyword' value='${memberSearchKeyword}'/>
 									                </c:if>
 									            </c:url>">
-											&raquo; </a>
+											&raquo; 
+										</a>
 									</c:otherwise>
 								</c:choose>
 							</li>
@@ -151,6 +150,8 @@
 		</section>
 	</main>
 	<!--footer -->
+	
+	<script src="<c:url value='/resources/js/noticeRolling.js'/>"></script>
 	<jsp:include page="/WEB-INF/views/footer.jsp" />
 </body>
 </html>

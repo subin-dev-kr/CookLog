@@ -155,17 +155,20 @@ header .drop-content .line:focus {
 .search-tab-buttons label .tab-icon {
 	margin-right: 5px;
 }
+
 /* 선택된 탭 스타일 */
-#rTitle:checked ~ .search-tab-buttons label[for="rTitle"], #mNickName:checked 
-	~ .search-tab-buttons label[for="mNickName"] {
+#tab-title:checked ~ .search-tab-buttons label[for="tab-title"],
+	#tab-nickname:checked ~ .search-tab-buttons label[for="tab-nickname"] {
 	background: #F1722826;
 	color: #F17228;
 }
+
 /* 박스 기본 숨김 */
 .search-box {
 	display: none;
 	margin-top: 16px;
 }
+
 /* 텍스트 아웃라인 지우기 */
 .search-box .no-line {
 	background-color: #f5f5f5;
@@ -243,12 +246,7 @@ header .drop-content .line:focus {
 .search-tab-buttons label .tab-icon {
 	margin-right: 5px;
 }
-/* 선택된 탭 스타일 */
-#tab-title:checked ~ .search-tab-buttons label[for="tab-title"],
-	#tab-nickname:checked ~ .search-tab-buttons label[for="tab-nickname"] {
-	background: #F1722826;
-	color: #F17228;
-}
+
 /* 박스 기본 숨김 */
 .search-box {
 	display: none;
@@ -323,19 +321,18 @@ section input[type="radio"] {
 }
 
 /* 활성화된 탭 스타일 (핵심 로직) */
-/* #recent 라디오 버튼이 체크되었을 때, 바로 뒤에 있는 .tab-button 내부의 label[for="recent"]를 활성화 */
-#recent:checked ~ .tab-button label[for="recent"], #popularity:checked 
-	~ .tab-button label[for="popularity"], #view:checked ~ .tab-button label[for="view"],
-	#suggestion:checked ~ .tab-button label[for="suggestion"], #scrap:checked 
-	~ .tab-button label[for="scrap"] {
-	color: #ffc107; /* 부트스트랩 Warning 색상 (활성화 색상) */
+/* 라디오 버튼이 체크되었을 때, 바로 뒤에 있는 .tab-button 내부의 label 를 활성화 */
+#recent:checked ~ .tab-button label[for="recent"],
+#like:checked ~ .tab-button label[for="like"],
+#view:checked ~ .tab-button label[for="view"] {
+	color: #ffc107;           /* 활성화 색상 (bootstrap warning) */
 	font-weight: bold;
-	border-bottom: 2px solid #ffc107; /* 활성화된 탭 아래에 강조선 */
+	border-bottom: 2px solid #ffc107;
 }
 
 /* 탭 콘텐츠 숨김 */
 .tab-content {
-	display: none;
+	display: flex;
 }
 
 #recent:checked ~ .tab-content.recent-content {
@@ -345,4 +342,34 @@ section input[type="radio"] {
 /* recipe-view */
 .recipe-ingredient {
 	white-space: pre-line !important;
+}
+
+/* 좋아요 아이콘 */
+.like-icon {
+  font-size: 1.2rem;
+  color: white;
+  transition: none; /* 부드러운 색변화도 차단 */
+}
+
+/* 좋아요 상태: 색깔로 구분 */
+.like-icon.liked {
+  color: red; 
+                 
+} 
+
+/* 버튼 hover 시에도 아이콘 색 고정 */
+.like-btn:hover .like-icon {
+  color: white;
+}
+
+.d-contents {
+  display: contents;
+}
+/* =========================
+   CookLog Footer (Custom)
+   ========================= */
+
+.cooklog-footer {
+  background: #0f172a; /* 진한 배경 */
+  color: #e5e7eb;      /* 기본 글자 */
 }

@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<c:url value='/resources/css/bootstrap.min.css'/>">
+<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
 <link href="<c:url value='/resources/css/theme.css'/>" rel="stylesheet">
 <title>게시글</title>
 </head>
@@ -35,12 +34,16 @@
 				<c:if test="${sessionScope.loginMember.mRole eq 1}">
 					<div>
 						<a class="btn btn-secondary me-2"
-							href="<c:url value='/notice/updateNoticeForm?nNum=${notice.nNum}'/>">수정</a>
+							href="<c:url value='/notice/updateNoticeForm?nNum=${notice.nNum}'/>">
+							수정
+						</a>
 
 						<form action="<c:url value='/notice/delete?nNum=${notice.nNum}'/>"
 							method="post" class="d-inline">
 							<button class="btn btn-danger" type="submit"
-								onclick="return confirm('정말로 삭제하시겠습니까?');">삭제</button>
+								onclick="return confirm('정말로 삭제하시겠습니까?');">
+								삭제
+							</button>
 						</form>
 
 					</div>

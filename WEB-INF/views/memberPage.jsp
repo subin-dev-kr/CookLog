@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -7,8 +6,8 @@
 <meta charset="UTF-8">
 <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
 <link href="<c:url value='/resources/css/theme.css'/>" rel="stylesheet">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&" />
+<link href="<c:url value='/resources/css/cookLog.css'/>" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&" rel="stylesheet" />
 <script src="https://kit.fontawesome.com/abd2984efb.js"></script>
 <title>My 페이지</title>
 </head>
@@ -26,17 +25,16 @@
 				<div class="col-lg-8">
 					<div class="d-flex justify-content-between align-items-end mb-4 border-bottom pb-2">
 						<h2 class="text-1000 fs-4 fw-bold">마이홈</h2>
-						<a href="<c:url value='/recipe/create'/>"
-							class="btn btn-warning rounded-1">레시피 등록</a>
+						<a href="<c:url value='/recipe/create'/>" class="btn btn-warning rounded-1">
+							레시피 등록
+						</a>
 					</div>
 					<!-- 검색창 -->
-					<form class="mb-5" action="<c:url value='/recipe/readSome'/>"
-						method="get">
+					<form class="mb-5" action="<c:url value='/recipe/readSome'/>" method="get">
 						<input type="hidden" name="page" value="1">
 						<div class="input-group">
-							<input class="form-control" type="text"
-								name="recipeSearchKeyword" placeholder="요리명을 검색해주세요"
-								aria-label="Search">
+							<input class="form-control" type="text" name="recipeSearchKeyword" 
+								placeholder="요리명을 검색해주세요" aria-label="Search" />
 							<button class="btn btn-primary" type="submit">
 								<i class="material-symbols-outlined input-box-icon text-white">search</i>
 							</button>
@@ -46,25 +44,43 @@
 
 				<div class="col-md-4">
 					<form class="p-4 border rounded shadow-sm">
-						<c:if test="${not empty sessionScope.loginMember}">
-							<h2>
-								<a href="<c:url value='/member/updateForm'/>">프로필</a>
-							</h2>
-							<p>
-								<a href="<c:url value='/member/updateForm'/>"
-									class="fs-4 fw-bold text-primary">${sessionScope.loginMember.mNickName}
-									님</a>
-							</p>
-						</c:if>
+					    <!-- 관리자 + 회원 관리 중일 때만 안내 문구 -->
+					    <c:if test="${sessionScope.loginMember.mRole eq 1 && not empty targetId}">
+					        <div class="alert alert-info mb-3">
+					            관리자 권한으로 회원 <b>${targetId}</b>의 레시피를 관리 중입니다.
+					        </div>
+					    </c:if>
+					
+					    <!-- 프로필은 항상 로그인 사용자 기준 -->
+					    <c:if test="${not empty sessionScope.loginMember}">
+					        <h2>
+					            <a href="<c:url value='/member/updateForm'/>">프로필</a>
+					        </h2>
+					        <p class="mb-0">
+					            <a href="<c:url value='/member/updateForm'/>" class="fs-4 fw-bold text-primary">
+					                ${sessionScope.loginMember.mNickName}님
+					            </a>
+					
+					            <!-- 관리자 뱃지 -->
+					            <c:if test="${sessionScope.loginMember.mRole eq 1}">
+					                <span class="badge bg-danger ms-2">ADMIN</span>
+					            </c:if>
+					        </p>
+					    </c:if>
 					</form>
 				</div>
 
 			</div>
 		</section>
-
+		
 		<hr class="mt-0">
 		<!-- 레시피리스트 -->
 		<section class="container py-4">
+			<c:if test="${not empty flashMsg}">
+			    <div class="alert alert-success d-inline-block mb-4">
+			    	${flashMsg}
+			    </div>
+			</c:if>
 			<div class="row gx-5 gy-5">
 				<c:choose>
 					<c:when test="${empty recipeList}">
@@ -80,9 +96,8 @@
 									<div class="position-relative card-img-fixed-height">
 										<c:if test="${not empty recipe.rCenterImagePath}">
 											<a href="<c:url value='/recipe/myView?rNum=${recipe.rNum}'/>">
-												<img
-												src="<c:url value='/uploadedImages/${recipe.rCenterImagePath}'/>"
-												class="img-fluid rounded-top w-100" alt="레시피 대표 이미지">
+												<img src="<c:url value='/uploadedImages/${recipe.rCenterImagePath}'/>"
+													class="img-fluid rounded-top w-100" alt="레시피 대표 이미지">
 											</a>
 										</c:if>
 									</div>
@@ -93,8 +108,9 @@
 												class="text-decoration-none text-dark"> ${recipe.rTitle}
 											</a>
 										</h3>
-										<p class="card-text text-muted small mb-1">작성자:
-											${recipe.mNickName}</p>
+										<p class="card-text text-muted small mb-1">
+											작성자:${recipe.mNickName}
+										</p>
 									</div>
 
 									<div class="card-footer bg-white border-top p-3 d-flex justify-content-between align-items-center">
@@ -104,17 +120,16 @@
 										<c:if test="${not empty sessionScope.loginMember}">
 										    <c:if test="${sessionScope.loginMember.mRole eq 1}">
 										        <form action="<c:url value='/recipe/delete'/>"
-										              method="post"
-										              class="m-0 p-0"
-										              style="display: contents;"
-										              onsubmit="return confirm('관리자 권한으로 이 레시피를 삭제하시겠습니까?');">
-										            <input type="hidden" name="rNum" value="${recipe.rNum}">
-										            <input type="hidden" name="targetId" value="${targetId}">
+										            method="post" class="m-0 p-0 d-contents" 
+										            onsubmit="return confirm('관리자 권한으로 이 레시피를 삭제하시겠습니까?');">
+										            <input type="hidden" name="rNum" value="${recipe.rNum}" />
+										            <input type="hidden" name="targetId" value="${targetId}" />
 										            <button type="submit" class="btn btn-danger btn-sm">관리자 삭제</button>
 										        </form>
 										    </c:if>
 										</c:if>
 									</div>
+									
 								</div>
 							</div>
 						</c:forEach>
@@ -134,37 +149,35 @@
 								<span class="page-link">&laquo;</span>
 							</c:when>
 							<c:otherwise>
-								<a class="page-link"
-									href="<c:url value='/recipe/readSome?page=${paging.currentPage - 1}'/>">&laquo;</a>
+								<a class="page-link" href="<c:url value='/recipe/readSome?page=${paging.currentPage - 1}'/>">
+									&laquo;
+								</a>
 							</c:otherwise>
 						</c:choose>
 					</li>
 					<!-- 현재 페이지 -->
-					<c:forEach begin="${paging.startPage}" end="${paging.endPage}"
-						var="pageNum">
-						<li
-							class="page-item ${pageNum == paging.currentPage ? 'active' : ''}">
-							<a class="page-link"
-							href="<c:url value='/recipe/readSome'>
-						               <c:param name='page' value='${pageNum}'/>
-						               <c:if test='${not empty param.recipeSearchKeyword}'>
-						                   <c:param name='recipeSearchKeyword' value='${param.recipeSearchKeyword}'/>
-						               </c:if>
-						           </c:url>">
-								${pageNum} </a>
+					<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="pageNum">
+						<li class="page-item ${pageNum == paging.currentPage ? 'active' : ''}">
+							<a class="page-link" href="<c:url value='/recipe/readSome'>
+					               <c:param name='page' value='${pageNum}'/>
+					               <c:if test='${not empty param.recipeSearchKeyword}'>
+					                   <c:param name='recipeSearchKeyword' value='${param.recipeSearchKeyword}'/>
+					               </c:if>
+					           </c:url>">
+								${pageNum} 
+							</a>
 						</li>
 					</c:forEach>
 					<!-- 다음 페이지 -->
-					<li
-						class="page-item ${paging.currentPage == paging.totalPages ? 'disabled' : ''}">
+					<li class="page-item ${paging.currentPage == paging.totalPages ? 'disabled' : ''}">
 						<c:choose>
 							<c:when test="${paging.currentPage == paging.totalPages}">
 								<span class="page-link">&raquo;</span>
 							</c:when>
 							<c:otherwise>
-								<a class="page-link"
-									href="<c:url value='/recipe/readSome?page=${paging.currentPage + 1}'/>">
-									&raquo; </a>
+								<a class="page-link" href="<c:url value='/recipe/readSome?page=${paging.currentPage + 1}'/>">
+									&raquo; 
+								</a>
 							</c:otherwise>
 						</c:choose>
 					</li>
@@ -175,5 +188,7 @@
 
 	<!-- footer -->
 	<jsp:include page="/WEB-INF/views/footer.jsp" />
+	
+	<script src="<c:url value='/resources/js/noticeRolling.js'/>"></script>
 </body>
 </html>

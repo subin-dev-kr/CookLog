@@ -7,19 +7,17 @@
 <link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
 <link href="<c:url value='/resources/css/theme.css'/>" rel="stylesheet">
 <link href="<c:url value='/resources/css/cookLog.css'/>" rel="stylesheet">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&" />
+<script src="https://kit.fontawesome.com/abd2984efb.js"></script>
 <title>Recipe</title>
 </head>
 <body>
 
 	<main class="container py-5">
 
-		<header
-			class="mb-5 py-sm-3 d-flex justify-content-between align-items-center shadow-sm px-3">
+		<header class="mb-5 py-sm-3 d-flex justify-content-between align-items-center shadow-sm px-3">
 			<h1 class="display-5 fw-bold">요리명: ${recipe.rTitle}</h1>
 			<span class="text-primary fw-bold">작성자: ${recipe.mNickName}</span>
-
 		</header>
 
 		<section class="mb-5">
@@ -27,8 +25,7 @@
 
 				<div class="col-lg-6">
 					<div class="card shadow-sm border-0">
-						<img
-							src="<c:url value='/uploadedImages/${recipe.rCenterImagePath}'/>"
+						<img src="<c:url value='/uploadedImages/${recipe.rCenterImagePath}'/>"
 							class="card-img-top rounded center-image-view" alt="대표 이미지">
 					</div>
 				</div>
@@ -103,7 +100,6 @@
 			</div>
 		</section>
 		
-		<!-- 추후 업데이트 예정 -->
 		<section class="mb-5 pt-3 border-top">
 			<div class="d-flex justify-content-between align-items-center mb-4">
 				<div>
@@ -112,23 +108,13 @@
 				<div class="d-flex">
 					<!-- contextPath 전달용 -->
 					<input type="hidden" id="ctx" value="${pageContext.request.contextPath}">
-					<button class="btn btn-danger me-2 d-flex align-items-center" 
-						type="button" id="likeBtn" data-rnum="${recipe.rNum}">
-						좋아요<i class="material-symbols-outlined ms-1">favorite</i>
-					</button>
-					<button class="btn btn-secondary me-2 d-flex align-items-center">
-						스크랩<i class="material-symbols-outlined ms-1">bookmark_star</i>
+					<button type="button" id="likeBtn"
+				        class="btn btn-primary me-2 d-flex align-items-center"
+				        data-rnum="${recipe.rNum}">
+					    <span class="me-1 text-white">좋아요</span>
+					    <i class="${liked ? 'fa-solid liked' : 'fa-regular'} fa-heart like-icon"></i>
 					</button>
 				</div>
-			</div>
-
-			<h3 class="fs-5 fw-bold mb-3">댓글</h3>
-			<div class="border p-3 mb-3 bg-light rounded">
-				<form class="d-flex justify-content-betwwen align-items-center">
-					<textarea class="form-control mb-2" rows="3"
-						placeholder="댓글을 작성하세요"></textarea>
-					<button type="submit" class="btn btn-primary btn-sm mx-4">등록</button>
-				</form>
 			</div>
 		</section>
 

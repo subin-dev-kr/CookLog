@@ -1,11 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<c:url value='/resources/css/bootstrap.min.css'/>">
+<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
 <link href="<c:url value='/resources/css/theme.css'/>" rel="stylesheet">
 <title>공지사항 등록</title>
 </head>
@@ -19,16 +18,16 @@
 			<form action="<c:url value='/notice/create'/>" method="post">
 
 				<div class="mb-3">
-					<label for="nTitle" class="form-label fw-bold">제목</label> <input
-						type="text" class="form-control" id="nTitle" name="nTitle"
+					<label for="nTitle" class="form-label fw-bold">제목</label> 
+					<input type="text" class="form-control" id="nTitle" name="nTitle"
 						placeholder="공지사항 제목을 입력하세요" required>
 				</div>
 
 				<div class="mb-3">
-					<label for="mNickName" class="form-label fw-bold">작성자</label> <input
-						type="text" class="form-control" id="mNickName" name="mNickName"
-						value="${sessionScope.loginMember.mNickName}" readonly> <input
-						type="hidden" name="mNum" value="${sessionScope.loginMember.mNum}">
+					<label for="mNickName" class="form-label fw-bold">작성자</label> 
+					<input type="text" class="form-control" id="mNickName" name="mNickName"
+						value="${sessionScope.loginMember.mNickName}" readonly>
+					<input type="hidden" name="mNum" value="${sessionScope.loginMember.mNum}">
 				</div>
 
 				<div class="mb-4">
@@ -38,8 +37,9 @@
 				</div>
 
 				<div class="d-flex justify-content-center pt-3 border-top">
-					<a href="<c:url value='/notice/list'/>"
-						class="btn btn-secondary me-3">취소</a>
+					<a href="<c:url value='/notice/list'/>" class="btn btn-secondary me-3">
+						취소
+					</a>
 					<button type="submit" class="btn btn-primary">등록</button>
 				</div>
 
